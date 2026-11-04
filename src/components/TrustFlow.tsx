@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   Activity, ArrowDownLeft, ArrowRight, ArrowUpRight, BookOpen, Check, CheckCircle2,
   ChevronDown, ChevronRight, CircleHelp, Clock3, Database, Eye, EyeOff, Fingerprint,
-  GitBranch2, LockKeyhole, Menu, MousePointer2, Plus, RefreshCw, Search, Shield,
+  GitBranch, LockKeyhole, Menu, MousePointer2, Plus, RefreshCw, Search, Shield,
   ShieldCheck, SlidersHorizontal, Sparkles, Unplug, X, type LucideIcon
 } from "lucide-react";
 
@@ -42,7 +42,7 @@ const SCOPE_INFO: Record<string,string> = {
 const SCOPE_OPTIONS = Object.keys(SCOPE_INFO);
 const NAV: {id:Screen; label:string; icon:LucideIcon}[] = [
   {id:"overview",label:"Overview",icon:Shield},
-  {id:"connections",label:"Connections",icon:GitBranch2},
+  {id:"connections",label:"Connections",icon:GitBranch},
   {id:"activity",label:"Activity log",icon:Activity},
   {id:"case",label:"Design rationale",icon:BookOpen}
 ];
