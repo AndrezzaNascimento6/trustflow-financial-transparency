@@ -156,7 +156,7 @@ export default function TrustFlow() {
   function detail(id:string){setSelectedId(id);setDialog("detail")}
   function revoke(){
     if(!selected)return;
-    setConnections(items=>items.map(c=>c.id===selected.id?{...c,status:"revoked",days:0}:c));
+    setConnections(items=>items.map(c=>c.id===selected.id?{...c,status:"revoked" as const,days:0}:c));
     setEvents(items=>[{id:String(Date.now()),name:"Permission revoked",detail:selected.name+" access was withdrawn in the prototype",time:"JUST NOW",kind:"revoke"},...items]);
     setDialog(null);setToast("Permission revoked in this simulation.");
   }
