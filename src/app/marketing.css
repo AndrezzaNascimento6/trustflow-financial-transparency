@@ -423,3 +423,7 @@
 /* Correct anchor visibility beneath the sticky site navigation. */
 .site-shell section[id] { scroll-margin-top:86px; }
 @media(max-width:650px) { .site-shell section[id] { scroll-margin-top:69px; } }
+
+/* Quiet dark placeholder while client-side entry state initializes. */
+.site-boot { min-height:100svh; display:grid; place-items:center; }
+.site-boot>span { font:500 clamp(34px,5vw,52px) var(--site-serif); color:#c4f6d9; letter-spacing:-1px; }
