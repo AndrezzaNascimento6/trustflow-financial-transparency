@@ -174,8 +174,8 @@ export default function MarketingSite({onStart,onExplore}:Props) {
           </Reveal>
           <div className="site-why-copy">
             <Reveal><span className="site-kicker"><span/> THE HUMAN SIDE OF DATA</span><h2 id="why-heading">When did<br/><em>“I agree”</em> become<br/>so complicated?</h2></Reveal>
-            <Reveal delay=.12><p>We grant permission in seconds. Then the details disappear into menus, terms and technical language.</p><p>TrustFlow reimagines that experience so that understanding comes <strong>before</strong> consent—and control doesn&apos;t end after you tap agree.</p></Reveal>
-            <Reveal delay=.22><div className="site-why-statement"><span>LESS ASSUMPTION.</span><span>MORE UNDERSTANDING.</span><span>MORE AGENCY.</span></div></Reveal>
+            <Reveal delay={0.12}><p>We grant permission in seconds. Then the details disappear into menus, terms and technical language.</p><p>TrustFlow reimagines that experience so that understanding comes <strong>before</strong> consent—and control doesn&apos;t end after you tap agree.</p></Reveal>
+            <Reveal delay={0.22}><div className="site-why-statement"><span>LESS ASSUMPTION.</span><span>MORE UNDERSTANDING.</span><span>MORE AGENCY.</span></div></Reveal>
           </div>
         </div>
       </section>
@@ -198,7 +198,7 @@ export default function MarketingSite({onStart,onExplore}:Props) {
         <div className="site-people-photo"><img src={HUMAN_PHOTO} alt="Woman at a café enjoying a moment on her smartphone; illustrative photo by Vitaly Gariev on Unsplash" width="900" height="1200" loading="lazy"/><div className="site-people-photo-overlay"/></div>
         <div className="site-people-content">
           <Reveal><span className="site-kicker"><span/> A DIFFERENT STARTING POINT</span><h2 id="people-heading">The technology<br/>is complex.<br/><em>Life shouldn&apos;t be.</em></h2></Reveal>
-          <Reveal delay=.12><p>The best financial experiences don&apos;t ask people to understand the infrastructure. They help people understand their choices.</p><span className="site-people-asterisk" aria-hidden="true">✳</span></Reveal>
+          <Reveal delay={0.12}><p>The best financial experiences don&apos;t ask people to understand the infrastructure. They help people understand their choices.</p><span className="site-people-asterisk" aria-hidden="true">✳</span></Reveal>
         </div>
         <span className="site-people-index">03 / HUMAN FIRST</span>
       </section>
@@ -207,7 +207,7 @@ export default function MarketingSite({onStart,onExplore}:Props) {
         <div className="site-section-number"><span>04 / INSIDE TRUSTFLOW</span><span>THE PRODUCT EXPERIENCE</span></div>
         <div className="site-experience-top">
           <Reveal><span className="site-kicker"><span/> NOT JUST INFORMATION. UNDERSTANDING.</span><h2 id="experience-heading">Control you can<br/><em>actually feel.</em></h2></Reveal>
-          <Reveal delay=.12><p>A permission isn&apos;t just a row in a table. It&apos;s a relationship you should be able to inspect, understand and end.</p></Reveal>
+          <Reveal delay={0.12}><p>A permission isn&apos;t just a row in a table. It&apos;s a relationship you should be able to inspect, understand and end.</p></Reveal>
         </div>
         <div className="site-experience-grid">
           <Reveal className="site-experience-showcase"><PermissionPreview onExplore={onExplore}/></Reveal>
