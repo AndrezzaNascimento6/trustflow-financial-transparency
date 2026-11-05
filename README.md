@@ -1,8 +1,27 @@
 # TrustFlow — Financial Transparency
 
-**Your data. Your decision.**
+**Your data. Your rules. Your world.**
 
 TrustFlow is an independent interactive product-design concept for understanding and managing Open Finance data-sharing permissions. It explores how financial consent can be clearer, more understandable, and easier to control.
+
+## Website and demo architecture
+
+The experience begins with an immersive, human-centered website rather than a traditional dashboard. The dark editorial landing page explains the Open Finance consent problem through storytelling, original SVG illustrations, glass layers and optional motion. Visitors can follow **Try the demo** to launch the simulated consent onboarding, or **Open workspace** to inspect the dashboard directly.
+
+- **Website:** product story, design principles, animated diagrams, human photography and an interactive workspace preview.
+- **Guided demo:** fictional profile, fictional bank selection, simulated bank handoff, explicit consent review and animated welcome.
+- **Workspace:** permission inspection, search, history, scope review, revocation and a design rationale.
+- **Return path:** a navigation action in the workspace returns to the website, without losing existing sample changes.
+
+## Photography and attribution
+
+Human photography is sourced from **Unsplash** under the [Unsplash License](https://unsplash.com/license). The photographs show people for editorial illustration only, **not real TrustFlow customers, participants in research or endorsements**. Images are loaded directly from the Unsplash CDN. Source details:
+
+- [Vitaly Gariev — Woman smiling while looking at her smartphone](https://unsplash.com/photos/woman-smiling-while-looking-at-her-smartphone-NtFfR3xULbQ): hero portrait.
+- [Vitaly Gariev — Young woman smiling while looking at her phone](https://unsplash.com/photos/young-woman-smiling-while-looking-at-her-phone-5qANSc28FrE): human-centered editorial section.
+- [Đào Việt Hoàng — Man sits thoughtfully outside a café](https://unsplash.com/photos/man-sits-thoughtfully-outside-a-cafe-JDQTqv7pkJs): financial transparency problem section.
+
+Decorative flows, UI preview and graphic elements are original React/SVG/CSS work rather than third-party illustrations. Photography attribution is also visible on the public website footer.
 
 ## Experience overview
 
@@ -12,6 +31,7 @@ The bank-authentication step is an **illustrative simulation**, not a passkey im
 
 ## Product experience
 
+- Dark editorial product website, glass panels, animated original SVGs and properly attributed Unsplash photography.
 - Demo sign-in, fictional bank selection, simulated verification and explicit consent approval.
 - At-a-glance overview of permissions, recipients, expiry and activity.
 - Connection details that disclose recipients, purposes, scope and access duration.
