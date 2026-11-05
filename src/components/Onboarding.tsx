@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowLeft, ArrowRight, ArrowUpRight, Check, CheckCircle2, ChevronRight,
-  Database, Fingerprint, KeyRound, Landmark, LockKeyhole, ShieldCheck, X,
+  ArrowLeft, ArrowRight, ArrowUpRight, Check, CheckCircle2,
+  Database, Fingerprint, KeyRound, Landmark, LockKeyhole, ShieldCheck,
 } from "lucide-react";
 
 export type FictionalBank = {
@@ -47,7 +47,6 @@ export default function Onboarding({ onComplete, onSkip }: Props) {
   const [bankId, setBankId] = useState(BANKS[0].id);
   const [scopes, setScopes] = useState<string[]>(["Account details", "Transactions"]);
   const [confirmed, setConfirmed] = useState(false);
-  const [cancelled, setCancelled] = useState(false);
   const reduced = useReducedMotion();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const bank = BANKS.find((item) => item.id === bankId) ?? BANKS[0];
@@ -62,7 +61,7 @@ export default function Onboarding({ onComplete, onSkip }: Props) {
     completed: <>You&apos;re connected.<br/><em>You&apos;re in control.</em></>,
   }[stage];
 
-  function goTo(next: Stage) { setStage(next); setCancelled(false); }
+  function goTo(next: Stage) { setStage(next); }
   function toggleScope(category: string) {
     setConfirmed(false);
     setScopes((current) => current.includes(category) ? current.filter((x) => x !== category) : [...current, category]);
@@ -85,7 +84,7 @@ export default function Onboarding({ onComplete, onSkip }: Props) {
         <div className="onboard-editorial">
           <div className="onboard-dash"><span/> A PERSONAL FINANCIAL CONTROL SPACE</div>
           <AnimatePresence mode="wait">
-            <motion.div key={stage} initial={reduced ? false : {opacity:0,y:27}} animate={{opacity:1,y:0}} exit={reduced ? undefined : {opacity:0,y:-15}} transition={{duration:reduced?0:.45,ease:[.22,1,.36,1]}}>
+            <motion.div key={stage} initial={reduced ? false : {opacity:0,y:27}} animate={{opacity:1,y:0}} exit={reduced ? undefined : {opacity:0,y:-15}} transition={{duration:reduced?0:.45,ease:[.22,1,.36,1] as [number,number,number,number]}}>
               <h1 ref={titleRef} tabIndex={-1} className="onboard-display-heading">{title}</h1>
               <p className="onboard-editorial-caption">
                 {stage === "login" && "Financial permissions should be easy to understand, not buried behind technical language. Start with a fictional profile."}
@@ -124,8 +123,8 @@ export default function Onboarding({ onComplete, onSkip }: Props) {
                 <span className="onboard-form-step">02 / SOURCE INSTITUTION</span>
                 <h2>Select a fictional bank.</h2>
                 <p className="onboard-form-description">In a real integration, this is the institution that already holds your financial information.</p>
-                <div className="onboard-bank-list" role="radiogroup" aria-label="Choose bank">
-                  {BANKS.map((item)=><button key={item.id} type="button" role="radio" aria-checked={bankId===item.id} className={"onboard-bank-option"+(bankId===item.id?" is-selected":"")} onClick={()=>setBankId(item.id)}>
+                <div className="onboard-bank-list" role="group" aria-label="Choose bank">
+                  {BANKS.map((item)=><button key={item.id} type="button" aria-pressed={bankId===item.id} className={"onboard-bank-option"+(bankId===item.id?" is-selected":"")} onClick={()=>setBankId(item.id)}>
                     <Emblem bank={item}/>
                     <span className="onboard-bank-label"><strong>{item.name}</strong><span>{item.subtitle}</span></span>
                     <span className="onboard-radio">{bankId===item.id&&<Check size={14}/>}</span>
@@ -140,7 +139,6 @@ export default function Onboarding({ onComplete, onSkip }: Props) {
                 <h2>Confirm your identity.</h2>
                 <p className="onboard-form-description">A participating bank would handle its own secure authentication. We intentionally do not ask for passwords or simulate genuine identity verification.</p>
                 <div className="onboard-verification-card"><KeyRound size={27}/><div><strong>Demo verification</strong><p>Preview the journey without connecting to any banking system.</p></div></div>
-                {cancelled&&<div className="onboard-cancel-message" role="status">No changes were made. You can choose a different institution.</div>}
                 <div className="onboard-actions"><button className="onboard-back" onClick={()=>goTo("choose")}><ArrowLeft size={18}/> Change bank</button><button className="onboard-primary" onClick={()=>goTo("consent")}>Simulate verification <ArrowRight size={19}/></button></div>
                 <p className="onboard-help"><LockKeyhole size={16}/> No login credentials are requested, transmitted or stored.</p>
               </>}
