@@ -178,6 +178,31 @@ export default function EditorialOverview({
                 </motion.tr>
               ))}</tbody>
             </table>
+            <ul className="editorial-mobile-register" aria-label="Permissions">
+              {visible.map((item) => (
+                <li key={item.id} className="editorial-mobile-entry">
+                  <div className="editorial-mobile-entry-head">
+                    <span className={"editorial-monogram editorial-monogram-"+item.color}>{item.initials}</span>
+                    <div className="editorial-mobile-entry-name">
+                      <strong>{item.name}</strong>
+                      <span>{item.purpose}</span>
+                    </div>
+                  </div>
+                  <div className="editorial-mobile-entry-detail">
+                    <span>DATA SHARED</span>
+                    <p>{item.scopes.join(" · ")}</p>
+                  </div>
+                  <div className="editorial-mobile-entry-bottom">
+                    <span className={"editorial-status editorial-status-"+item.status}>
+                      <span/>{item.status === "revoked" ? "Ended" : item.status === "expiring" ? "Expiring" : "Active"}
+                    </span>
+                    <button className="editorial-mobile-review" onClick={() => onReview(item.id)}>
+                      Review permission <ArrowUpRight size={19}/>
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
             {connections.length === 0 && <p className="editorial-empty">No permissions in this demonstration.</p>}
           </div>
           <button className="editorial-more" onClick={onManage}>Open the full register <ArrowRight size={18}/></button>
