@@ -147,6 +147,7 @@ export default function TrustFlow() {
   const [comparison,setComparison]=useState<"before"|"after">("after");
   const reduced=useReducedMotion();
   useEffect(()=>{setEntry("marketing");},[]);
+  useEffect(()=>{if(entry!=="loading"){window.scrollTo(0,0);}},[entry]);
   const live=connections.filter(c=>c.status!=="revoked");
   const selected=connections.find(c=>c.id===selectedId)??null;
   const visible=useMemo(()=>connections.filter(c=>(filter==="all"||c.status===filter)&& (c.name+" "+c.purpose+" "+c.scopes.join(" ")).toLowerCase().includes(search.toLowerCase())),[connections,filter,search]);
