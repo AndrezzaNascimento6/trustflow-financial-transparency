@@ -211,7 +211,7 @@ export default function TrustFlow() {
     try{sessionStorage.removeItem("trustflow-demo-session");}catch{/* Optional session storage */}
     setShowIntro(false);setMobileNav(false);setDialog(null);setEntry("onboarding");
   }
-  if(entry==="loading")return <div className="onboard-app onboard-boot" aria-label="Loading TrustFlow"><span>TrustFlow</span></div>;
+  if(entry==="loading")return <div className="site-shell site-boot" aria-label="Loading TrustFlow"><span>trustflow.</span></div>;
   if(entry==="marketing")return <MarketingSite onStart={startDemo} onExplore={exploreWithoutSetup}/>;
   if(entry==="onboarding")return <Onboarding onComplete={finishOnboarding} onSkip={exploreWithoutSetup}/>;
   return <div className="app">
