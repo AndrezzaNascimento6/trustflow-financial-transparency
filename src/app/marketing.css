@@ -413,3 +413,9 @@
  .site-shell *, .site-shell *::before,.site-shell *::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; }
  .site-scroll-cue svg,.site-pulse,.site-ribbon-track,.site-statement-orbit>div { animation:none!important; }
 }
+
+/* Protect the marketing canvas from legacy global workspace element rules. */
+.site-shell > main { max-width:none; min-height:0; padding:0; margin:0; }
+.site-shell > .site-footer { display:block; min-height:0; border-top:0; background:#050f0d; color:var(--site-ink); font:400 16px var(--font); letter-spacing:normal; }
+.site-shell > .site-footer svg { color:inherit; }
+.site-shell :where(button,a) { touch-action:manipulation; }
