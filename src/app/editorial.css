@@ -193,7 +193,7 @@ footer svg { color: #9b533e; }
 .feature-clock { display: grid; place-items: center; padding: 13px 0; min-height: 210px; }
 .clock-background {
   width: min(215px,100%); aspect-ratio: 1; border-radius: 50%;
-  border: 1px solid #956d59;
+  border: 1px solid #77503d;
   display: grid; place-items: center;
   box-shadow: 0 0 0 23px #d5a48d,0 0 0 24px #a8836d;
 }
@@ -342,7 +342,7 @@ footer svg { color: #9b533e; }
 .aside-symbol { color: #ac5639; border-color: #b7a38b; }
 .timeline-aside h3 { color: #283b2e; font: 600 29px var(--editorial-serif); }
 .timeline-aside p { color: #536451; font-size: 16px; }
-.timeline-aside>span { color: #697261; font-size: 12px; }
+.timeline-aside>span { color: #4a594b; font-size: 13px; }
 .aside-line { background: #c5bba9; }
 
 .case-hero { background: #dcd5c7; border-color: #cec1af; border-radius: 4px; }
@@ -429,7 +429,7 @@ footer svg { color: #9b533e; }
 .intro-content .brand { color: #273c30; }
 .intro-content .brand-green,.intro-content .brand b { color: #a75037; }
 .intro-rule { background: #b04e34; height: 2px; }
-.intro-kicker { color: #7c6e5b; font-size: 14px; letter-spacing: 2.5px; }
+.intro-kicker { color: #6f614d; font-size: 14px; letter-spacing: 2.5px; }
 .intro-content h2 { color: #28392c; font: 500 clamp(62px,7.5vw,108px)/1.04 var(--editorial-serif); letter-spacing: -4px; }
 .intro-content h2 em { color: #a55039; }
 .intro-skip { background: transparent; border: 1px solid #a89c8c; color: #374a3b; font-size: 14px; }
@@ -542,3 +542,6 @@ footer svg { color: #9b533e; }
   .connection-card,.modal-panel,.editorial-access-table td { border-color: #7d8473; }
   :focus-visible { outline-width: 4px; }
 }
+
+/* Labels placed on the warmer tinted surfaces need stronger contrast. */
+.case-hero .eyebrow, .timeline-aside .eyebrow { color: #783d2d; }
