@@ -357,7 +357,7 @@ footer svg { color: #9b533e; }
 .case-numbers strong { color: #293d2e; font: 500 46px var(--editorial-serif); }
 .case-numbers small { color: #5a6b5b; font-size: 15px; }
 .case-section { border-color: #cdc9bb; }
-.case-section h2 { font: 500 clamp(36px,4vw,57px)/1.17 var(--editorial-serif); letter-spacing: -1px; }
+.case-section h2 { font: 500 clamp(33px,3.4vw,46px)/1.17 var(--editorial-serif); letter-spacing: -1px; }
 .case-section>p { color: #506452; font-size: 16px; max-width: 940px; }
 .principles>div,.motion-rules>div { border-radius: 4px; border-color: #d1c7b8; background: #fffdf7; }
 .principles svg { color: #a34e35; }
@@ -496,7 +496,7 @@ footer svg { color: #9b533e; }
   .feature-side-bottom { border-top: none; max-width: 170px; }
   .feature-side-top { width: 100%; font-size: 12px; }
   .clock-background { width: 125px; box-shadow: 0 0 0 9px #d5a48d,0 0 0 10px #a8836d; }
-  .clock-inner strong { font-size: 52px; }
+  .clock-inner strong { font-size: 47px; }
   .clock-inner span { font-size: 11px; }
   .feature-side-bottom strong { font-size: 21px; }
   .editorial-sections { padding-top: 50px; }
@@ -519,9 +519,9 @@ footer svg { color: #9b533e; }
   .connection-card h3 { font-size: 29px; }
   .connection-card>p { font-size: 16px; }
   .case-hero { padding: 35px 25px; }
-  .case-hero h1 { font-size: 65px; }
+  .case-hero h1 { font-size: 52px; }
   .case-hero p { font-size: 16px; }
-  .case-section h2 { font-size: 43px; }
+  .case-section h2 { font-size: 36px; }
   .case-section>p { font-size: 16px; }
   .case-numbers strong { font-size: 40px; }
   .timeline-aside h3 { font-size: 29px; }
