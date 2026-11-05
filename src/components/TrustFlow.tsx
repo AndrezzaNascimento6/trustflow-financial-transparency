@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import EditorialOverview from "@/components/EditorialOverview";
+import Onboarding, { type FictionalBank } from "@/components/Onboarding";
 import {
   Activity, ArrowDownLeft, ArrowRight, ArrowUpRight, BookOpen, Check, CheckCircle2,
   ChevronDown, ChevronRight, CircleHelp, Clock3, Database, Eye, EyeOff, Fingerprint,
@@ -12,7 +13,7 @@ import {
 
 type Status = "active" | "expiring" | "revoked";
 type Screen = "overview" | "connections" | "activity" | "case";
-type Connection = { id: string; name: string; initials: string; color: string; purpose: string; description: string; scopes: string[]; days: number; status: Status; last: string };
+type Connection = { id: string; name: string; initials: string; color: string; purpose: string; description: string; scopes: string[]; days: number; status: Status; last: string; sourceBank?: string };
 type Event = { id: string; name: string; detail: string; time: string; kind: "access" | "consent" | "revoke" };
 type Dialog = "new" | "detail" | "revoke" | null;
 type Filter = "all" | Status;
@@ -131,6 +132,7 @@ export default function TrustFlow() {
   const [connections,setConnections]=useState<Connection[]>(SEED);
   const [events,setEvents]=useState<Event[]>(INITIAL_EVENTS);
   const [loaded,setLoaded]=useState(false);
+  const [entry,setEntry]=useState<"loading"|"onboarding"|"workspace">("loading");
   const [showIntro,setShowIntro]=useState(true);
   const [filter,setFilter]=useState<Filter>("all");
   const [search,setSearch]=useState("");
@@ -143,6 +145,7 @@ export default function TrustFlow() {
   const [mobileNav,setMobileNav]=useState(false);
   const [comparison,setComparison]=useState<"before"|"after">("after");
   const reduced=useReducedMotion();
+  useEffect(()=>{try { setEntry(sessionStorage.getItem("trustflow-demo-session")==="1"?"workspace":"onboarding"); } catch {setEntry("onboarding");}},[]);
   const live=connections.filter(c=>c.status!=="revoked");
   const selected=connections.find(c=>c.id===selectedId)??null;
   const visible=useMemo(()=>connections.filter(c=>(filter==="all"||c.status===filter)&& (c.name+" "+c.purpose+" "+c.scopes.join(" ")).toLowerCase().includes(search.toLowerCase())),[connections,filter,search]);
@@ -173,6 +176,35 @@ export default function TrustFlow() {
     setToast("Simulated activity added.");
   }
   function reset(){setConnections(SEED);setEvents(INITIAL_EVENTS);setFilter("all");setSearch("");setDialog(null);setScreen("overview");setToast("Sample data restored.")}
+  function finishOnboarding(bank:FictionalBank,categories:string[]){
+    const demoConnection:Connection={
+      id:"trustflow-demo-consent",
+      name:"TrustFlow Demo",
+      initials:"TF",
+      color:"mint",
+      purpose:"Permission management and financial overview",
+      description:"A fictional data-sharing permission originating from "+bank.name+". This interface does not request or access banking data.",
+      scopes:categories,
+      days:90,
+      status:"active",
+      last:"Not accessed in this demo",
+      sourceBank:bank.name
+    };
+    setConnections(items=>[demoConnection,...items.filter(item=>item.id!==demoConnection.id)]);
+    setEvents(items=>[{id:"demo-onboard-"+Date.now(),name:"Sample bank connection created",detail:bank.name+" → TrustFlow Demo · "+categories.join(", "),time:"JUST NOW",kind:"consent"},...items]);
+    try{sessionStorage.setItem("trustflow-demo-session","1");}catch{/* Browser storage may be restricted */}
+    setEntry("workspace");setShowIntro(false);setScreen("overview");setToast("Your sample connection is now visible.");
+  }
+  function exploreWithoutSetup(){
+    try{sessionStorage.setItem("trustflow-demo-session","1");}catch{/* Optional session storage */}
+    setShowIntro(false);setEntry("workspace");setScreen("overview");
+  }
+  function reopenOnboarding(){
+    try{sessionStorage.removeItem("trustflow-demo-session");}catch{/* Optional session storage */}
+    setShowIntro(false);setMobileNav(false);setDialog(null);setEntry("onboarding");
+  }
+  if(entry==="loading")return <div className="onboard-app onboard-boot" aria-label="Loading TrustFlow"><span>TrustFlow</span></div>;
+  if(entry==="onboarding")return <Onboarding onComplete={finishOnboarding} onSkip={exploreWithoutSetup}/>;
   return <div className="app">
     <AnimatePresence>{showIntro&&!reduced&&<Intro onDone={closeIntro}/>}</AnimatePresence>
     <a className="skip-link" href="#main">Skip to content</a>
@@ -182,7 +214,7 @@ export default function TrustFlow() {
       <div className="sidebar-caption">WORKSPACE <span>01 / 01</span></div>
       <nav aria-label="Primary navigation">{NAV.map(n=>{const Icon=n.icon;return <button key={n.id} className={"nav-link"+(screen===n.id?" nav-selected":"")} aria-current={screen===n.id?"page":undefined} onClick={()=>navigate(n.id)}><Icon size={18}/><span>{n.label}</span>{screen===n.id&&<motion.i layoutId="nav-indicator"/>}</button>})}</nav>
       <div className="sidebar-info"><div className="sidebar-info-icon"><ShieldCheck size={25}/></div><span>BUILT AROUND YOU</span><p>Clarity is the beginning of financial confidence.</p><div className="sidebar-info-bars"><i/><i/><i/></div></div>
-      <div className="sidebar-foot"><button className="reset-button" onClick={reset}><RefreshCw size={16}/> Reset sample data</button><div className="profile"><div className="profile-avatar">TF</div><div><strong>TrustFlow</strong><span>Independent UX concept</span></div><span className="profile-dots">•••</span></div></div>
+      <div className="sidebar-foot"><button className="reset-button" onClick={reopenOnboarding}><Fingerprint size={16}/> Try sign-in &amp; bank setup</button><button className="reset-button" onClick={reset}><RefreshCw size={16}/> Reset sample data</button><div className="profile"><div className="profile-avatar">TF</div><div><strong>TrustFlow</strong><span>Independent UX concept</span></div><span className="profile-dots">•••</span></div></div>
     </aside>
     {mobileNav&&<button className="mobile-scrim" aria-label="Close navigation" onClick={()=>setMobileNav(false)}/>}
     <div className="main">
@@ -205,7 +237,7 @@ export default function TrustFlow() {
       <footer><span>© 2026 TRUSTFLOW <span className="footer-separator">/</span> HUMAN-CENTERED FINANCIAL EXPERIENCES</span><span><ShieldCheck size={14}/> FICTIONAL INSTITUTIONS. NO REAL DATA.</span></footer>
     </div>
     <AnimatePresence>
-      {dialog==="detail"&&selected&&<ModalShell title={selected.name+" connection details"} onClose={()=>setDialog(null)}><Eyebrow>CONNECTION DETAILS</Eyebrow><div className="dialog-heading"><Avatar item={selected}/><div><h2>{selected.name}</h2><StatusPill status={selected.status}/></div></div><p className="dialog-description">{selected.description}</p><div className="detail-section"><span>PURPOSE</span><strong>{selected.purpose}</strong></div><div className="detail-section"><span>SHARED DATA</span><div className="scope-stack">{selected.scopes.map(s=><div key={s}><Database size={17}/><div><strong>{s}</strong><small>{SCOPE_INFO[s]}</small></div></div>)}</div></div><div className="detail-columns"><div><span>EXPIRY</span><strong>{selected.status==="revoked"?"Permission ended":selected.days+" days remaining"}</strong></div><div><span>LAST REPORTED ACCESS</span><strong>{selected.last}</strong></div></div>{selected.status!=="revoked"?<button className="button-danger" onClick={()=>setDialog("revoke")}><Unplug size={18}/> Revoke permission <ArrowRight size={17}/></button>:<div className="confirmation-inline"><CheckCircle2 size={18}/> This permission has ended in the prototype.</div>}<p className="dialog-disclaimer">Example data only. No bank or financial institution is connected.</p></ModalShell>}
+      {dialog==="detail"&&selected&&<ModalShell title={selected.name+" connection details"} onClose={()=>setDialog(null)}><Eyebrow>CONNECTION DETAILS</Eyebrow><div className="dialog-heading"><Avatar item={selected}/><div><h2>{selected.name}</h2><StatusPill status={selected.status}/></div></div><p className="dialog-description">{selected.description}</p><div className="detail-section"><span>PURPOSE</span><strong>{selected.purpose}</strong></div><div className="detail-section"><span>SHARED DATA</span><div className="scope-stack">{selected.scopes.map(s=><div key={s}><Database size={17}/><div><strong>{s}</strong><small>{SCOPE_INFO[s]}</small></div></div>)}</div></div>{selected.sourceBank&&<div className="detail-section"><span>SOURCE INSTITUTION</span><strong>{selected.sourceBank} · Fictional</strong></div>}<div className="detail-columns"><div><span>EXPIRY</span><strong>{selected.status==="revoked"?"Permission ended":selected.days+" days remaining"}</strong></div><div><span>LAST REPORTED ACCESS</span><strong>{selected.last}</strong></div></div>{selected.status!=="revoked"?<button className="button-danger" onClick={()=>setDialog("revoke")}><Unplug size={18}/> Revoke permission <ArrowRight size={17}/></button>:<div className="confirmation-inline"><CheckCircle2 size={18}/> This permission has ended in the prototype.</div>}<p className="dialog-disclaimer">Example data only. No bank or financial institution is connected.</p></ModalShell>}
       {dialog==="revoke"&&selected&&<ModalShell title="Confirm permission revocation" onClose={()=>setDialog(null)}><div className="revoke-icon"><Unplug size={30}/></div><Eyebrow>REVIEW YOUR DECISION</Eyebrow><h2 className="dialog-title">Revoke access for {selected.name}?</h2><p className="dialog-description">The recipient will no longer be marked as authorized to request new data in this prototype. This does not delete information previously received or revoke any real bank authorization.</p><div className="revoke-summary"><Shield size={19}/><div><strong>What changes?</strong><p>The connection becomes inactive and a local activity event is added.</p></div></div><div className="dialog-buttons"><button className="button-outline" onClick={()=>setDialog("detail")}>Go back</button><button className="button-danger" onClick={revoke}>Confirm revocation <ArrowRight size={16}/></button></div></ModalShell>}
       {dialog==="new"&&<ModalShell title="Create a simulated connection" onClose={()=>setDialog(null)}><Eyebrow>NEW CONNECTION / STEP 0{step+1} OF 03</Eyebrow><h2 className="dialog-title">Make an informed choice.</h2><div className="steps"><span className={step>=0?"filled":""}/><span className={step>=1?"filled":""}/><span className={step>=2?"filled":""}/></div><AnimatePresence mode="wait"><motion.div key={step} className="wizard-content" initial={{opacity:0,x:16}} animate={{opacity:1,x:0}} exit={{opacity:0,x:-16}} transition={{duration:.22}}>{step===0?<><h3>Choose a recipient</h3><p>Which fictional company should receive selected information?</p><div className="recipient-list">{RECIPIENTS.map((r,i)=><button key={r.name} className={"recipient-option"+(recipient===i?" chosen":"")} aria-pressed={recipient===i} onClick={()=>setRecipient(i)}><Avatar item={r}/><span><strong>{r.name}</strong><small>{r.purpose}</small></span><span className="option-radio">{recipient===i&&<Check size={14}/>}</span></button>)}</div></>:step===1?<><h3>Choose exactly what to share</h3><p>Review each data category before continuing.</p><div className="scope-options">{SCOPE_OPTIONS.map(s=><label key={s} className={"scope-option"+(scopes.includes(s)?" chosen":"")}><input type="checkbox" checked={scopes.includes(s)} onChange={()=>setScopes(items=>items.includes(s)?items.filter(x=>x!==s):[...items,s])}/><span><strong>{s}</strong><small>{SCOPE_INFO[s]}</small></span><Check size={16}/></label>)}</div></>:<><h3>Review your permission</h3><p>Confirm the recipient, purpose, categories and duration.</p><div className="review-list"><div><span>Recipient</span><strong>{RECIPIENTS[recipient].name}</strong></div><div><span>Purpose</span><strong>{RECIPIENTS[recipient].purpose}</strong></div><div><span>Information shared</span><strong>{scopes.join(", ")}</strong></div><div><span>Duration</span><strong>90 days (simulated)</strong></div><div><span>Withdrawal</span><strong>Available at any time</strong></div></div><div className="simulation-warning"><LockKeyhole size={18}/> Real authorization requires authentication and approval through participating institutions. This flow changes local UI state only.</div></>}</motion.div></AnimatePresence><div className="dialog-buttons"><button className="button-outline" onClick={()=>step===0?setDialog(null):setStep(s=>s-1)}>{step===0?"Cancel":"Back"}</button><button className="button-primary" disabled={step===1&&scopes.length===0} onClick={()=>step===2?grant():setStep(s=>s+1)}>{step===2?"Confirm simulation":"Continue"} <ArrowRight size={16}/></button></div></ModalShell>}
     </AnimatePresence>
