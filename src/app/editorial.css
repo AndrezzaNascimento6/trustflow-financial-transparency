@@ -545,3 +545,43 @@ footer svg { color: #9b533e; }
 
 /* Labels placed on the warmer tinted surfaces need stronger contrast. */
 .case-hero .eyebrow, .timeline-aside .eyebrow { color: #783d2d; }
+
+/* Access register: a true single-column interaction on narrow screens.
+   The desktop table is replaced by a semantic list; no horizontal gesture required. */
+.editorial-mobile-register { display: none; }
+@media (max-width: 660px) {
+  .editorial-permissions { min-width: 0; }
+  .editorial-table-wrap { width: 100%; min-width: 0; overflow-x: visible; }
+  .editorial-access-table { display: none; }
+  .editorial-mobile-register {
+    display: grid;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-top: 1px solid #a6ada0;
+  }
+  .editorial-mobile-entry {
+    width: 100%;
+    min-width: 0;
+    border-bottom: 1px solid #c9cbbc;
+    padding: 21px 0 20px;
+  }
+  .editorial-mobile-entry-head { display: flex; align-items: flex-start; gap: 13px; }
+  .editorial-mobile-entry-head .editorial-monogram { height: 47px; width: 47px; flex: 0 0 47px; }
+  .editorial-mobile-entry-name { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+  .editorial-mobile-entry-name strong { color: #283b30; font-size: 17px; line-height: 1.4; }
+  .editorial-mobile-entry-name > span { color: #5a6b5b; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+  .editorial-mobile-entry-detail { padding: 19px 0 16px; }
+  .editorial-mobile-entry-detail > span { color: #6a584c; font: 800 12px var(--display); letter-spacing: .7px; }
+  .editorial-mobile-entry-detail p { color: #3f5947; font-size: 15px; line-height: 1.5; margin: 7px 0 0; }
+  .editorial-mobile-entry-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .editorial-mobile-review {
+    display: inline-flex; align-items: center; gap: 7px;
+    color: #924631; font-size: 14px; font-weight: 800;
+    border: 1px solid #bdb6a6; background: #f8f5ee;
+    padding: 10px 11px; min-height: 44px; border-radius: 3px;
+  }
+  .editorial-mobile-review:hover { background: #eae2d4; border-color: #a46146; }
+  .editorial-mobile-review:focus-visible { outline: 3px solid #a94b35; outline-offset: 3px; }
+}
