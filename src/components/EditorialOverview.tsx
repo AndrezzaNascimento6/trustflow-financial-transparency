@@ -35,7 +35,7 @@ type Props = {
   onDesign: () => void;
 };
 
-const easing = [0.22, 1, 0.36, 1] as const;
+const easing = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 export default function EditorialOverview({
   connections, events, onReview, onManage, onNew, onActivity, onDesign
