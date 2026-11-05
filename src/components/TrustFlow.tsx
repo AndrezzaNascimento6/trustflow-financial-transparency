@@ -133,7 +133,7 @@ export default function TrustFlow() {
   const [events,setEvents]=useState<Event[]>(INITIAL_EVENTS);
   const [loaded,setLoaded]=useState(false);
   const [entry,setEntry]=useState<"loading"|"onboarding"|"workspace">("loading");
-  const [showIntro,setShowIntro]=useState(true);
+  const [showIntro,setShowIntro]=useState(false);
   const [filter,setFilter]=useState<Filter>("all");
   const [search,setSearch]=useState("");
   const [dialog,setDialog]=useState<Dialog>(null);
@@ -193,7 +193,7 @@ export default function TrustFlow() {
     setConnections(items=>[demoConnection,...items.filter(item=>item.id!==demoConnection.id)]);
     setEvents(items=>[{id:"demo-onboard-"+Date.now(),name:"Sample bank connection created",detail:bank.name+" → TrustFlow Demo · "+categories.join(", "),time:"JUST NOW",kind:"consent"},...items]);
     try{sessionStorage.setItem("trustflow-demo-session","1");}catch{/* Browser storage may be restricted */}
-    setEntry("workspace");setShowIntro(false);setScreen("overview");setToast("Your sample connection is now visible.");
+    setEntry("workspace");setShowIntro(true);setScreen("overview");setToast("Your sample connection is now visible.");
   }
   function exploreWithoutSetup(){
     try{sessionStorage.setItem("trustflow-demo-session","1");}catch{/* Optional session storage */}
