@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import EditorialOverview from "@/components/EditorialOverview";
 import Onboarding, { type FictionalBank } from "@/components/Onboarding";
+import MarketingSite from "@/components/MarketingSite";
 import {
   Activity, ArrowDownLeft, ArrowRight, ArrowUpRight, BookOpen, Check, CheckCircle2,
   ChevronDown, ChevronRight, CircleHelp, Clock3, Database, Eye, EyeOff, Fingerprint,
@@ -132,7 +133,7 @@ export default function TrustFlow() {
   const [connections,setConnections]=useState<Connection[]>(SEED);
   const [events,setEvents]=useState<Event[]>(INITIAL_EVENTS);
   const [loaded,setLoaded]=useState(false);
-  const [entry,setEntry]=useState<"loading"|"onboarding"|"workspace">("loading");
+  const [entry,setEntry]=useState<"loading"|"marketing"|"onboarding"|"workspace">("loading");
   const [showIntro,setShowIntro]=useState(false);
   const [filter,setFilter]=useState<Filter>("all");
   const [search,setSearch]=useState("");
@@ -145,7 +146,7 @@ export default function TrustFlow() {
   const [mobileNav,setMobileNav]=useState(false);
   const [comparison,setComparison]=useState<"before"|"after">("after");
   const reduced=useReducedMotion();
-  useEffect(()=>{try { setEntry(sessionStorage.getItem("trustflow-demo-session")==="1"?"workspace":"onboarding"); } catch {setEntry("onboarding");}},[]);
+  useEffect(()=>{setEntry("marketing");},[]);
   const live=connections.filter(c=>c.status!=="revoked");
   const selected=connections.find(c=>c.id===selectedId)??null;
   const visible=useMemo(()=>connections.filter(c=>(filter==="all"||c.status===filter)&& (c.name+" "+c.purpose+" "+c.scopes.join(" ")).toLowerCase().includes(search.toLowerCase())),[connections,filter,search]);
@@ -195,6 +196,12 @@ export default function TrustFlow() {
     try{sessionStorage.setItem("trustflow-demo-session","1");}catch{/* Browser storage may be restricted */}
     setEntry("workspace");setShowIntro(true);setScreen("overview");setToast("Your sample connection is now visible.");
   }
+  function startDemo(){
+    setShowIntro(false);setMobileNav(false);setDialog(null);setEntry("onboarding");
+  }
+  function returnToWebsite(){
+    setShowIntro(false);setMobileNav(false);setDialog(null);setEntry("marketing");
+  }
   function exploreWithoutSetup(){
     try{sessionStorage.setItem("trustflow-demo-session","1");}catch{/* Optional session storage */}
     setShowIntro(false);setEntry("workspace");setScreen("overview");
@@ -204,6 +211,7 @@ export default function TrustFlow() {
     setShowIntro(false);setMobileNav(false);setDialog(null);setEntry("onboarding");
   }
   if(entry==="loading")return <div className="onboard-app onboard-boot" aria-label="Loading TrustFlow"><span>TrustFlow</span></div>;
+  if(entry==="marketing")return <MarketingSite onStart={startDemo} onExplore={exploreWithoutSetup}/>;
   if(entry==="onboarding")return <Onboarding onComplete={finishOnboarding} onSkip={exploreWithoutSetup}/>;
   return <div className="app">
     <AnimatePresence>{showIntro&&!reduced&&<Intro onDone={closeIntro}/>}</AnimatePresence>
@@ -214,7 +222,7 @@ export default function TrustFlow() {
       <div className="sidebar-caption">WORKSPACE <span>01 / 01</span></div>
       <nav aria-label="Primary navigation">{NAV.map(n=>{const Icon=n.icon;return <button key={n.id} className={"nav-link"+(screen===n.id?" nav-selected":"")} aria-current={screen===n.id?"page":undefined} onClick={()=>navigate(n.id)}><Icon size={18}/><span>{n.label}</span>{screen===n.id&&<motion.i layoutId="nav-indicator"/>}</button>})}</nav>
       <div className="sidebar-info"><div className="sidebar-info-icon"><ShieldCheck size={25}/></div><span>BUILT AROUND YOU</span><p>Clarity is the beginning of financial confidence.</p><div className="sidebar-info-bars"><i/><i/><i/></div></div>
-      <div className="sidebar-foot"><button className="reset-button" onClick={reopenOnboarding}><Fingerprint size={16}/> Try sign-in &amp; bank setup</button><button className="reset-button" onClick={reset}><RefreshCw size={16}/> Reset sample data</button><div className="profile"><div className="profile-avatar">TF</div><div><strong>TrustFlow</strong><span>Independent UX concept</span></div><span className="profile-dots">•••</span></div></div>
+      <div className="sidebar-foot"><button className="reset-button" onClick={returnToWebsite}><ArrowRight size={16}/> Back to website</button><button className="reset-button" onClick={reopenOnboarding}><Fingerprint size={16}/> Try sign-in &amp; bank setup</button><button className="reset-button" onClick={reset}><RefreshCw size={16}/> Reset sample data</button><div className="profile"><div className="profile-avatar">TF</div><div><strong>TrustFlow</strong><span>Independent UX concept</span></div><span className="profile-dots">•••</span></div></div>
     </aside>
     {mobileNav&&<button className="mobile-scrim" aria-label="Close navigation" onClick={()=>setMobileNav(false)}/>}
     <div className="main">
