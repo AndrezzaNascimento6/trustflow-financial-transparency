@@ -146,7 +146,7 @@
 .site-why-statement { display:flex; flex-direction:column; gap:12px; border-left:2px solid #acf3cf; padding-left:19px; margin-top:38px; font:800 13px var(--display); color:#c5f1d9; letter-spacing:1.2px; }
 .site-how { background:linear-gradient(180deg,#0c221c,#0b1e19); border-top:1px solid #234839; border-bottom:1px solid #234839; max-width:none; padding-top:100px; padding-bottom:95px; }
 .site-how>.site-section-number,.site-how>.site-how-heading,.site-how>.site-flow-art,.site-how>.site-steps,.site-how>.site-how-cta { max-width:1512px; margin-left:auto; margin-right:auto; }
-.site-how-heading { display:flex; justify-content:space-between; align-items:end; gap:30px; padding-top:62px; flex-wrap:wrap; }
+.site-how-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:30px; padding-top:62px; flex-wrap:wrap; }
 .site-how-heading>h2 { width:100%; margin:2px 0 0; }
 .site-how-heading>p { color:#bdd0c1; font-size:18px; margin:-15px 0 0; }
 .site-flow-art { height:320px; position:relative; display:flex; align-items:center; justify-content:space-between; padding:30px min(9vw,155px); margin-top:45px; border:1px solid #97d4b92b; background:radial-gradient(ellipse at 50% 52%,#17483854,transparent 52%),#091c17; overflow:hidden; }
@@ -176,7 +176,7 @@
 .site-people-asterisk { display:block; font:400 90px var(--site-serif); color:#b5ebcf; line-height:1; margin-top:35px; }
 .site-people-index { position:absolute; bottom:26px; left:clamp(25px,4vw,70px); font:800 12px var(--display); letter-spacing:1px; color:#e2f4e7; }
 .site-experience { padding-top:123px; padding-bottom:150px; }
-.site-experience-top { display:flex; align-items:end; justify-content:space-between; gap:60px; padding-top:40px; }
+.site-experience-top { display:flex; align-items:flex-end; justify-content:space-between; gap:60px; padding-top:40px; }
 .site-experience-top>div:first-child { flex:1.1; }
 .site-experience-top>div:last-child { flex:.6; }
 .site-experience-top>div:last-child p { font-size:18px; color:#b8c9bd; line-height:1.7; margin-bottom:25px; }
@@ -419,3 +419,7 @@
 .site-shell > .site-footer { display:block; min-height:0; border-top:0; background:#050f0d; color:var(--site-ink); font:400 16px var(--font); letter-spacing:normal; }
 .site-shell > .site-footer svg { color:inherit; }
 .site-shell :where(button,a) { touch-action:manipulation; }
+
+/* Correct anchor visibility beneath the sticky site navigation. */
+.site-shell section[id] { scroll-margin-top:86px; }
+@media(max-width:650px) { .site-shell section[id] { scroll-margin-top:69px; } }
